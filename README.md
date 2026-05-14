@@ -11,11 +11,13 @@ Consta de una pantalla led con esp32-s3 integrado, con un chasis de maquina retr
 
 Con un servidor web donde se puede ver una interfaz de el puntaje de los jugadores, estableciendo un ranking ademas de poder ver como aumenta la puntuacion durante el juego y otros datos de la partida en tiempo real.
 
-## Diagrama 📊 :
-![alt text](tyghjbk.jpg)
-
-### 📖 Descripcion de librerias: 
-#### 🛠️ Tecnologías y Librerías
+## Diagramas de conexión 📊 :
+### *Diagrama ESP32-S3 "pantalla" a Pantalla TFT*:
+![alt text](diagrama1.png)
+### *Diagrama ESP32-S3 "control" a la placa  Joystick*:
+![alt text](diagrama2.png)
+## 📖 Descripcion de librerias: 
+### 🛠️ Tecnologías y Librerías
 
 El proyecto utiliza las siguientes dependencias para el control del hardware, la comunicación inalámbrica y la integración con la nube:
 
