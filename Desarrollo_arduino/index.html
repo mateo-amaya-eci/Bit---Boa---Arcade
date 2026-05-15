@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Bit-Boa 🐍</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white font-sans">
+    <!-- Gusanito de Cuadrados -->
+<div class="fixed top-20 left-10 -z-10 flex space-x-1 items-center rotate-12 opacity-40">
+    <!-- Cabeza (Violeta muy claro/neón) -->
+    <div class="w-10 h-10 bg-[#F0C7FF] rounded-sm shadow-[0_0_15px_#F0C7FF] border border-white"></div>
+    <!-- Cuerpo (Violeta principal) -->
+    <div class="w-10 h-10 bg-[#EA52FF] rounded-sm border border-purple-900"></div>
+    <div class="w-10 h-10 bg-[#EA52FF] rounded-sm border border-purple-900"></div>
+    <!-- Cola (Violeta más oscuro para dar profundidad) -->
+    <div class="w-10 h-10 bg-[#9d36ab] rounded-sm border border-purple-900"></div>
+</div>
+<!-- Manzana Roja -->
+<div class="fixed bottom-32 right-20 -z-10 opacity-50">
+    <!-- El fruto -->
+    <div class="w-8 h-8 bg-red-500 rounded-full shadow-[0_0_20px_#ef4444] relative">
+        <!-- El brillo de la manzana -->
+        <div class="absolute top-1 left-1 w-2 h-2 bg-white rounded-full opacity-60"></div>
+    </div>
+    <!-- El tallo (opcional) -->
+    <div class="w-1 h-3 bg-green-700 mx-auto -mt-1 rounded-full"></div>
+</div>
+    <div class="container mx-auto px-4 py-10">
+        <h1 class="text-8xl font-bold text-center mb-10 text-[#EA52FF]">RANKING BIT - BOA 🐍 </h1>
+        
+        <div class="bg-[#F0C7FF] bg-opacity-30 rounded-xl p-6 shadow-4xl border border-[#EA52FF]">
+            <table class="w-full text-left border-separate border-spacing-y-2"> 
+                <thead>
+                    <tr class="text-[#F0C7FF] text-2xl">
+                        <th class="py-4 px-4 border-b-2 border-[#EA52FF]">POSICIÓN</th> 
+                        <th class="py-4 border-b-2 border-[#EA52FF]">JUGADOR</th>
+                        <th class="py-4 text-right border-b-2 border-[#EA52FF] pr-4">PUNTOS</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-ranking" class="text-xl">
+                <!-- Los datos de JS se insertarán aquí -->
+        </tbody>
+    </table>
+</div>
+
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // CONFIGURACIÓN DE TU PROYECTO (Copia lo de tu App de Firebase)
+        // CONFIGURACIÓN REAL DE BIT-BOA
+    const firebaseConfig = {
+        apiKey: "AIzaSyCRCUX_OFNxMOBAlgGM4yClNEgIgjpSTZw",
+        authDomain: "bit---boa.firebaseapp.com",
+        databaseURL: "https://bit---boa-default-rtdb.firebaseio.com",
+        projectId: "bit---boa",
+        storageBucket: "bit---boa.firebasestorage.app",
+        messagingSenderId: "1026767653010",
+        appId: "1:1026767653010:web:505db30156a37106f87e4b",
+        measurementId: "G-G9N4FY3FE9"
+    };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const rankingRef = query(ref(db, 'ranking'), orderByChild('puntos'));
+
+        onValue(rankingRef, (snapshot) => {
+            const tbody = document.getElementById('tabla-ranking');
+            tbody.innerHTML = "";
+            let lista = [];
+
+            snapshot.forEach((childSnapshot) => {
+                lista.push(childSnapshot.val());
+            });
+
+            // Ordenar de mayor a menor
+            lista.reverse().forEach((jugador, index) => {
+                const fila = `
+                    <tr class="bg-white bg-opacity-5 hover:bg-opacity-10 transition-all duration-300">
+                        <td class="py-4 px-4 font-bold text-[#EA52FF] border-l-4 border-[#EA52FF] rounded-l-lg">${index + 1}</td>
+                        <td class="py-4 px-2">${jugador.usuario}</td>
+                        <td class="py-4 px-4 text-right font-mono text-yellow-400 rounded-r-lg">${jugador.puntos}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += fila;
+            });
+        });
+    </script>
+    <script>
+    // Función para crear manzanas aleatorias
+    for (let i = 0; i < 15; i++) {
+        const manzana = document.createElement('div');
+        
+        // Generar posiciones aleatorias en porcentaje
+        const x = Math.floor(Math.random() * 90); 
+        const y = Math.floor(Math.random() * 90);
+        
+        manzana.className = "fixed -z-10 opacity-20";
+        manzana.style.left = x + "%";
+        manzana.style.top = y + "%";
+        
+        // El HTML de la manzana
+        manzana.innerHTML = `
+            <div class="w-4 h-4 bg-red-600 rounded-full shadow-[0_0_10px_red]"></div>
+        `;
+        
+        document.body.appendChild(manzana);
+    }
+</script>
+</body>
+</html>
